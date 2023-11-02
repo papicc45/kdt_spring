@@ -1,0 +1,10 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:mytestserverdb
+
+mybatis:
+  type-aliases-package: com.example.spring_mybatis.domain
+  mapper-locations: mybatis-mapper/*.xml
