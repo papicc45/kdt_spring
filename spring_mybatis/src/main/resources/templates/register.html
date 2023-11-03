@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<form id="form_register">
+  <input type="text" placeholder="아이디" name="userId" /> <br />
+  <input type="password" placeholder="비밀번호" name="password" /> <br />
+  <input type="text" placeholder="이름" name="name" />
+  <button type="button" onclick="register();">회원가입</button>
+</form>
+<script>
+  function register() {
+    const form = document.getElementById('form_register');
+    const data = {
+      userId: form.userId.value,
+      name: form.name.value,
+      password: form.password.value,
+    };
+    axios({
+      method: 'POST',
+      url: '/register',
+      data,
+    }).then((res) => {
+      console.log(res.data);
+      if(res.data) {
+        alert('회원 가입 완료!');
+        window.location.href = 'http://localhost:8080/login';
+      } else {
+        alert('회원 가입 실패');
+      }
+    });
+  }
+</script>
+</body>
+</html>

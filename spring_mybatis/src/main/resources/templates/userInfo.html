@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<form id="form_register">
+    <input type="hidden" id="id" name="index">
+  <input type="text" placeholder="아이디" id="userId" name="userId"/> <br />
+  <input type="password" placeholder="비밀번호" id="password" name="password" /> <br />
+  <input type="text" placeholder="이름" id="name" name="name" />
+  <button type="button" onclick="updateInfo();">정보수정</button>
+  <button type="button" onclick="deleteInfo();">회원삭제</button>
+</form>
+<script>
+    (function()  {
+        const id = document.getElementById('id');
+        const userId = document.getElementById('userId');
+        const password = document.getElementById('password');
+        const name = document.getElementById('name');
+        id.value = localStorage.getItem('id');
+        userId.value = localStorage.getItem('userId');
+        password.value = localStorage.getItem('password');
+        name.value = localStorage.getItem('name');
+    })();
+    function deleteInfo() {
+        const id = document.getElementById('index');
+        axios({
+            method: 'DELETE',
+            url : '/delete',
+            data : { id : id },
+        }).then((res)=> {
+            console.log(res);
+        });
+    }
+  function updateInfo() {
+    const form = document.getElementById('form_register');
+    const data = {
+        id : form.index.value,
+      userId: form.userId.value,
+      name: form.name.value,
+      password: form.password.value,
+    };
+    axios({
+      method: 'PATCH',
+      url: '/update',
+      data,
+    }).then((res) => {
+        console.log(res);
+      console.log(res.data);
+      if(res.data) {
+       alert('정보 수정 완료 !');
+       localStorage.removeItem('id');
+       localStorage.removeItem('userId');
+       localStorage.removeItem('name');
+       localStorage.removeItem('password');
+      } else {
+       alert('정보 수정 실패 !');
+      }
+    });
+  }
+
+</script>
+</body>
+</html>
